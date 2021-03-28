@@ -24,27 +24,45 @@ class Server(socketserver.BaseRequestHandler):
 					dados_aux = arq.read()
 
 					dicio = json.loads(dados_aux)
+
 					dados.append([dicio['local'], dicio['preco']])
 
 					arq.close()
 
-				
-			if dado == 'I': # Se for requisitado informações básicas
-				
-				for info in diretorios:
-					arq = open(f'data_server/{info}/list.json', 'r')
-					dados_aux = arq.read()
+				# Cada elemento na string tem 1 byte, logo, a soma de todos os
+				# elementos === peso do que vai enviar
+				peso = len(str(dados))
 
-					dicio = json.loads(dados_aux)
-					dados.append([dicio['imagem'], dicio['local'], dicio['nome']])
+				self.request.send(str(peso).encode())
 
-					arq.close()
+				
+			if 'I' in dado: # Se for requisitado informações básicas
+				
+				indice = int(dado[1:])
+
+				info = diretorios[indice]
+
+				arq = open(f'data_server/{info}/info.json', 'r')
+				dados_aux = arq.read()
+
+				dicio = json.loads(dados_aux)
+
+				# A imagem a enviar é obtida em bytes
+				imagem = open(f'data_server/{info}/imagem.jpg', 'rb')
+				img_enviar = imagem.read()
+				imagem.close()
+
+				dados = [img_enviar, dicio['local'], dicio['nome']]
+
+				arq.close()
+
+				# Repito o mesmo processo acima para descobrir o peso do arquivo
+				peso = len(str(dados))
+				self.request.send(str(peso).encode())
 
 
 			self.request.send(str(dados).encode())
 
-		except Exception as E:
-			print('Conexão falha', E)
 
 		finally:
 			self.request.close()
@@ -53,7 +71,7 @@ class Server(socketserver.BaseRequestHandler):
 
 
 if __name__ == '__main__':
-	host, port = ('localhost', 50002)
+	host, port = ('localhost', 50003)
 
 	server = socketserver.ThreadingTCPServer(
 		(host, port), Server
