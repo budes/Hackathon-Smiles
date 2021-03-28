@@ -1,5 +1,5 @@
 {
-	"imagem": "imagem.jpg",
-	"nome": "Brasília",
+	"imagem": "https://raw.githubusercontent.com/budes/Hackathon-Smiles/main/Server/data_server/Bras%C3%ADlia/imagem.jpg",
+	"nome": "Brasilia",
 	"local": "Brasil, Distrito Federal"
 }
