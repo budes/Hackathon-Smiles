@@ -1,0 +1,160 @@
+<Gerenciador>:
+	Opcoes:
+		name: "opcoes"
+	Viagem:
+		name: "viagem"
+		
+	
+	
+<Opcoes>:
+	ScrollView:
+		canvas.before:
+			Color: 
+				rgba: 1, 1, 1, 1
+				
+			Rectangle:
+				pos: self.pos
+				size: self.size
+		
+		BoxLayout:
+			id: box
+			
+			orientation: 'vertical'
+			
+			size_hint_y: None
+			height: self.minimum_height
+				
+				
+<Opcao>:
+	on_release:
+		app.root.get_screen('viagem').opc = self.i
+		app.root.current = 'viagem'
+		
+
+	size_hint_y: None
+	height: 200
+	
+	canvas:
+		Color: 
+			rgba: 0.7, 0.7, 0.7, 1
+			
+		Rectangle:
+			pos: self.x+30, self.y
+			size: self.width-60, 5
+	
+	BoxLayout:
+		orientation: "vertical"
+		Label:
+			id: titulo
+			
+			color: 0, 0, 0, 1
+			font_size: 50
+			
+			
+		Label:
+			id: preco
+			
+			color: 0.1, 0.1, 0.1, 1
+			font_size: 30
+				
+	Label:
+		text: 'A'
+		font_size: 50
+		bold: True
+		
+		canvas.before:
+			Color: 
+				rgba: 0.9, 0, 0, 1
+			
+			Ellipse: 
+				pos: self.x + self.width/3, self.y+40
+				size: self.width/3, self.width/3
+		
+
+<Viagem>:
+	BoxLayout:
+		orientation: 'vertical'
+		Image:
+			id: img
+			
+		BoxLayout:
+			orientation: 'vertical'
+			canvas:
+				Color:
+					rgba: 1, 1, 1, 1
+					
+				Rectangle:
+					pos: self.pos
+					size: self.size
+					
+				Rectangle:
+					pos: self.x+35, self.height
+					size: self.width-70, 35
+				
+				Ellipse:
+					pos: self.x, self.height-35
+					size: 70, 70
+					
+				Ellipse:
+					pos: self.width-70, self.height-35
+					size: 70, 70
+					
+			BoxLayout:
+				size_hint_y: None
+				height: 100
+				
+				spacing: 10
+				orientation: 'vertical'
+				
+				Label:
+					id: local
+					padding: 50, 50
+					
+					id: local
+					text: ''
+						
+					color: 0.5, 0.5, 0.5, 1
+						
+					font_size: 40
+					
+					
+				Label:
+										
+					id: nome
+					text: 'Local especifico'
+					
+					color: 0, 0, 0, 1
+						
+					font_size: 80
+					bold: True
+			
+						
+			BoxLayout:
+				size_hint_y:
+				height: 300
+				orientation: "vertical"	
+					
+				Botao:
+					size_hint_y: None
+					height: 150
+					
+					
+					cor: 1, 0.64, 0, 1
+					font_size: 50
+					
+					text: 'Preparar viagem'
+					
+				Botao: 
+					size_hint_y: None
+					height: 200
+					
+					padding: 50, 2
+				
+					cor: 1, 1, 1, 1
+					font_size: 60
+					
+					color: 1, 0.64, 0, 1
+					
+					text: 'Voltar'
+					
+					on_release: app.root.current = 'opcoes'
